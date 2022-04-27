@@ -1,5 +1,6 @@
 import datetime as dt
 from csv import writer, DictReader
+from sheets import sendToSheet
 
 global tempHour
 tempHour = {
@@ -44,14 +45,12 @@ def register(name,pin):
         with open('pins.csv','a') as file:
             csv_writer = writer(file)
             csv_writer.writerow([pin,name])
-        return True
+        return True,"Registered "+name
     except Exception as e:
         print(e)
-        return False
+        return False,"Error in registering: "+e
 
 
-def sendToSheet(name,hours):
-    return True
 
 
 register('John',1234)
