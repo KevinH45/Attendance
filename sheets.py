@@ -1,2 +1,2 @@
 def sendToSheet(name,hours):
-    pass
+    print(hours)

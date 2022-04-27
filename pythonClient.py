@@ -23,8 +23,8 @@ def logout(pin):
         return "Invalid Pin"
     else:
         sendToSheet(user,dt.datetime.now()-tempHour[pin])
-        tempHour.clear(pin)
-        return "Logged out "+user+" at "+str(tempHour[pin])
+        tempHour.pop(pin)
+        return "Logged out "+user+" at "+str(dt.datetime.now())
 
 def getUserFromPin(pin):
     '''
@@ -45,12 +45,9 @@ def register(name,pin):
         with open('pins.csv','a') as file:
             csv_writer = writer(file)
             csv_writer.writerow([pin,name])
-        return True,"Registered "+name
+        return "Registered "+name
     except Exception as e:
         print(e)
-        return False,"Error in registering: "+e
+        return "Error in registering: "+e
 
 
-
-
-register('John',1234)
