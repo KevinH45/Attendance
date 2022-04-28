@@ -1,5 +1,6 @@
 from tkinter import *
 from pythonClient import login,logout
+from PIL import Image, ImageTk
 import datetime as dt
 
 
@@ -14,25 +15,37 @@ class LogHourForm:
         self.window = Tk()
         self.window.title("Log Hours")
         self.window.geometry("500x500")
-
         self.window.bind("<Return>",lambda x: self.chooser())
-
-        self.msg = Label(self.window)
-        self.msg.grid(row=5, column=1)
 
 
         # Make a label for pin
         lbl_pin = Label(self.window, text="Pin")
-        lbl_pin.grid(column=0, row=0)
+        lbl_pin.pack(anchor='center')
 
 
         # Make a textbox for pin
         self.pin = Entry(self.window, width=10)
-        self.pin.grid(column=1, row=0)
+        self.pin.pack(anchor='center')
 
 
         btn_submit = Button(self.window, text="Submit", command=self.chooser)
-        btn_submit.grid(column=1, row=4)
+        btn_submit.pack(anchor='center')
+
+        self.msg = Label(self.window)
+        self.msg.pack(anchor='center')
+
+
+        # Image stuff
+        image888 = Image.open("888logo2.png")
+        image888 = image888.resize((400,400), Image.ANTIALIAS)
+        test = ImageTk.PhotoImage(image888)
+
+        imageLabel = Label(self.window,image=test)
+        imageLabel.image = test
+
+        imageLabel.pack(anchor='center', side=BOTTOM)
+
+
 
         self.window.after(1000, self.logOutForgotLogin) 
         self.window.mainloop()
@@ -50,6 +63,7 @@ class LogHourForm:
         if pinLog in self.loggedIn:
             self.logOutUser(pinLog)
             self.pin.delete(0,END)
+            self.loggedIn.remove(pinLog)
         else:
             self.loginUser(pinLog)
             self.loggedIn.append(pinLog)
