@@ -16,15 +16,28 @@ def login(pin):
         tempHour[pin] = dt.datetime.now()
         return "Logged in "+user+" at "+str(tempHour[pin])
 
-def logout(pin):
-    user = getUserFromPin(pin)
+def logout(pin, ignoreHours=False):
+    if ignoreHours:
+        user = getUserFromPin(pin)
 
-    if user is None:
-        return "Invalid Pin"
+        if user is None:
+            return ""
+        else:
+            sendToSheet(user,0)
+            tempHour.pop(pin)
+            return ""
     else:
-        sendToSheet(user,dt.datetime.now()-tempHour[pin])
-        tempHour.pop(pin)
-        return "Logged out "+user+" at "+str(dt.datetime.now())
+        user = getUserFromPin(pin)
+
+        if user is None:
+            return "Invalid Pin"
+        else:
+            try:
+                sendToSheet(user,dt.datetime.now() - tempHour[pin])
+                tempHour.pop(pin)
+            except KeyError:
+                return "Not logged out, you are not logged in"
+            return "Logged out "+user+" at "+str(dt.datetime.now())
 
 def getUserFromPin(pin):
     '''

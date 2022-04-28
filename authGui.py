@@ -1,5 +1,6 @@
 from tkinter import *
 from pythonClient import login,logout
+import datetime as dt
 
 
 
@@ -10,36 +11,37 @@ class LogHourForm:
 
         # Make a tkinter form for registering users using username and pin
         # Display a sucess message if the user is registered else display failure message
-        window = Tk()
-        window.title("Log Hours")
-        window.geometry("500x500")
+        self.window = Tk()
+        self.window.title("Log Hours")
+        self.window.geometry("500x500")
 
-        window.bind("<Return>",lambda x: self.chooser())
+        self.window.bind("<Return>",lambda x: self.chooser())
 
-        self.msg = Label(window)
+        self.msg = Label(self.window)
         self.msg.grid(row=5, column=1)
 
 
         # Make a label for pin
-        lbl_pin = Label(window, text="Pin")
+        lbl_pin = Label(self.window, text="Pin")
         lbl_pin.grid(column=0, row=0)
 
 
         # Make a textbox for pin
-        self.pin = Entry(window, width=10)
+        self.pin = Entry(self.window, width=10)
         self.pin.grid(column=1, row=0)
 
 
-        btn_submit = Button(window, text="Submit", command=self.chooser)
+        btn_submit = Button(self.window, text="Submit", command=self.chooser)
         btn_submit.grid(column=1, row=4)
 
-        window.mainloop()
+        self.window.after(1000, self.logOutForgotLogin) 
+        self.window.mainloop()
 
     def loginUser(self,pin):
         self.msg.configure(text=login(pin))
 
-    def logOutUser(self,pin):
-        self.msg.configure(text=logout(pin))
+    def logOutUser(self,pin,ignoreHours=False):
+        self.msg.configure(text=logout(pin, ignoreHours))
 
     def chooser(self):
 
@@ -52,6 +54,29 @@ class LogHourForm:
             self.loginUser(pinLog)
             self.loggedIn.append(pinLog)
             self.pin.delete(0,END)
+    
+    def logOutAll(self):
+        for pin in self.loggedIn:
+            self.logOutUser(pin,True)
+        self.loggedIn = []
+    
+    def logOutForgotLogin(self):
+        currentTime = dt.datetime.now().time()
+        arbLateTime1 = dt.time(23,55,0)
+        arbLateTime2 = dt.time(23,56,0)
+
+        if self.timeInRange(arbLateTime1,arbLateTime2,currentTime):
+            self.logOutAll()
+        
+        self.window.after(1000, self.logOutForgotLogin)
+
+    def timeInRange(self,start,end,x):
+        return x>=start and x<=end
+    
+
+
+        
+
 
 
 # Start the application
