@@ -37,7 +37,7 @@ def logout(pin, ignoreHours=False):
             return "Invalid Pin"
         else:
             try:
-                sheetObject.sendHours(user,(dt.datetime.now() - tempHour[pin]))
+                sheetObject.sendHours(user,(dt.datetime.now() - tempHour[pin]).seconds()//3600)
                 tempHour.pop(pin)
             except KeyError:
                 return "Not logged out, you are not logged in"
