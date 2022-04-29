@@ -1,6 +1,10 @@
 import datetime as dt
 from csv import writer, DictReader
-from sheets import sendToSheet
+import sheets
+
+sheetName = "AttendanceOffSeason2022"
+
+sheetObject = sheets.sheets(sheetName)
 
 global tempHour
 tempHour = {
@@ -23,7 +27,7 @@ def logout(pin, ignoreHours=False):
         if user is None:
             return ""
         else:
-            sendToSheet(user,0)
+            sheetObject.sendHours(user,0)
             tempHour.pop(pin)
             return ""
     else:
@@ -33,11 +37,14 @@ def logout(pin, ignoreHours=False):
             return "Invalid Pin"
         else:
             try:
-                sendToSheet(user,dt.datetime.now() - tempHour[pin])
+                sheetObject.sendHours(user,(dt.datetime.now() - tempHour[pin]))
                 tempHour.pop(pin)
             except KeyError:
                 return "Not logged out, you are not logged in"
             return "Logged out "+user+" at "+str(dt.datetime.now())
+
+
+
 
 def getUserFromPin(pin):
     '''
