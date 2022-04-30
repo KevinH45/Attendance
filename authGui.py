@@ -2,7 +2,6 @@ from tkinter import *
 from pythonClient import login,logout
 from PIL import Image, ImageTk
 import datetime as dt
-from playsound import playsound
 
 
 class LogHourForm:
@@ -52,11 +51,9 @@ class LogHourForm:
 
     def loginUser(self,pin):
         self.msg.configure(text=login(pin))
-        playsound(u'among-us-roundstart.mp3')
 
     def logOutUser(self,pin,ignoreHours=False):
         self.msg.configure(text=logout(pin, ignoreHours))
-        playsound(u'among-us-roundstart.mp3')
 
     def chooser(self):
 
