@@ -20,7 +20,7 @@ pip install gspread oauth2client gspread_formatting pillow
 ```
 
 
-## Setup google sheets intergrations
+## Set up Google Sheets integrations
 
 Download AttendanceKey from google drive into this folder
 
