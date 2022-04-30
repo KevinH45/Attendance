@@ -94,5 +94,3 @@ class LogHourForm:
 
 # Start the application
 LogHourForm()
-
-
