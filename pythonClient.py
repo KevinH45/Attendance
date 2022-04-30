@@ -54,7 +54,13 @@ def logout(pin, ignoreHours=False):
         if user is None:
             return ""
         else:
-            sheetObject.sendHours(user,0)
+            waitForWriteLine(
+                    user
+                    +","
+                    +str(0.0)
+                    +","
+                    +str(dt.datetime.now())
+            )
             tempHour.pop(pin)
             return ""
     else:
