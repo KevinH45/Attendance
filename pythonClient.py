@@ -22,7 +22,7 @@ def login(pin):
     if user is None:
         return "Invalid Pin"
     else:
-        # sheetObject.login(user)
+        sheetObject.login(user)
         tempHour[pin] = dt.datetime.now()
         return "Logged in "+user+" at "+str(tempHour[pin])
 
@@ -43,10 +43,11 @@ def logout(pin, ignoreHours=False):
             return "Invalid Pin"
         else:
             try:
-                # sheetObject.logout(user)
+                
                 currentSeconds = (dt.datetime.now() - tempHour[pin]).total_seconds()
 
                 if not useLocalStorage:
+                    sheetObject.logout(user)
                     sheetObject.sendHours(user ,round(currentSeconds/3600,2))
                 else: 
                     localStorage.sendHours(user, round(currentSeconds/3600,2))
