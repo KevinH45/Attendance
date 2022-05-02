@@ -1,5 +1,7 @@
 # Attendance
+Hour logging program
 
+with Google sheets intergration and local backups to prevent data loss
 
 ## Running the Program
 
