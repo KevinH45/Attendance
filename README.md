@@ -11,6 +11,9 @@ python3 registerGui.py
 Run hour-logging program with: 
 ```
 python3 authGui.py
+
+python3 dataUploader.py
+
 ```
 
 ## Install all packages
