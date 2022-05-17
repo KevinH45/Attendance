@@ -36,7 +36,13 @@ class RegisterForm:
 
 		user = self.username.get()
 		pinLog = self.pin.get()
+
+		self.username.delete(0,END)
+		self.pin.delete(0,END)
+		
 		self.msg.configure(text=register(user,pinLog))
+
+
 
 
 # Start the application
