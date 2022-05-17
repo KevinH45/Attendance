@@ -15,8 +15,8 @@ class sheets:
     def setupSheet(self, sheet):
         setupSheet(sheet)
 
-    def sendHours(self, name, hours):
-        sendHours(self.sheet, name, hours)
+    def sendHours(self, name, hours,date=datetime.datetime.now()):
+        sendHours(self.sheet, name, hours,date)
     def login(self, name):
         login(self.sheet, name)
     def logout(self, name):
@@ -96,14 +96,14 @@ def findName(sheet, name):
             return row
         row += 1
 
-def sendHours(sheet, name, hours):
+def sendHours(sheet, name, hours,date=datetime.datetime.now()):
     print("sending hours")
     
     # search row 1 for name
     row = findName(sheet, name)
     # 4th col onward are dates
     col = 4
-    todayDate = datetime.datetime.today().strftime("%m/%d/%Y")
+    todayDate = date.today().strftime("%m/%d/%Y")
     while (True):
         if (sheet.cell(1, col).value == todayDate or sheet.cell(1, col).value == ""or sheet.cell(1, col).value == None):
             sheet.update_cell(1, col, todayDate)

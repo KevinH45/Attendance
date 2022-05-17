@@ -1,13 +1,20 @@
+import imp
 from tkinter import *
-from pythonClient import login,logout
+from pythonClient import login,logout, waitForWritePickle
 from PIL import Image, ImageTk
 import datetime as dt
+from playsound import playsound
+import pickle
+import os
+import time
+import pythonClient
+import subprocess
 
 
 class LogHourForm:
 
     def __init__(self):
-        self.loggedIn = []	
+        self.loggedIn = pythonClient.waitForReadPickle("data/loggedIn.pickle") # if no file found returns []
 
         # Make a tkinter form for registering users using username and pin
         # Display a sucess message if the user is registered else display failure message
@@ -51,9 +58,11 @@ class LogHourForm:
 
     def loginUser(self,pin):
         self.msg.configure(text=login(pin))
+        #playsound(u'among-us-roundstart.mp3')
 
     def logOutUser(self,pin,ignoreHours=False):
         self.msg.configure(text=logout(pin, ignoreHours))
+        #playsound(u'among-us-roundstart.mp3')
 
     def chooser(self):
 
@@ -67,6 +76,9 @@ class LogHourForm:
             self.loginUser(pinLog)
             self.loggedIn.append(pinLog)
             self.pin.delete(0,END)
+        waitForWritePickle("data/loggedIn.pickle",self.loggedIn)
+        waitForWritePickle("data/tempHour.pickle",pythonClient.tempHour)
+
     
     def logOutAll(self):
         for pin in self.loggedIn:
@@ -94,3 +106,5 @@ class LogHourForm:
 
 # Start the application
 LogHourForm()
+
+
